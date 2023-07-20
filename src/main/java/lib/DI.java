@@ -16,6 +16,7 @@ public class DI {
         return createInstance(clazz);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T singletonOf(Class<T> clazz) {
         if (singletonInstances.containsKey(clazz)) {
             return (T) singletonInstances.get(clazz);
@@ -39,6 +40,7 @@ public class DI {
         return instances;
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T createInstance(Class<T> clazz) {
         try {
             Constructor<?>[] constructors = clazz.getDeclaredConstructors();
@@ -60,20 +62,6 @@ public class DI {
             return null;
         } catch (Exception e) {
             throw new RuntimeException("Cannot create instance of " + clazz.getSimpleName());
-        }
-    }
-
-    private <T> void injectDependencies(T instance) {
-        Class<?> clazz = instance.getClass();
-        for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
-            Class<?> dependencyClass = field.getType();
-            Object dependencyInstance = createInstance(dependencyClass);
-            try {
-                field.setAccessible(true);
-                field.set(instance, dependencyInstance);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to inject dependency for " + clazz.getSimpleName());
-            }
         }
     }
 
