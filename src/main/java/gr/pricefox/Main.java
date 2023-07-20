@@ -16,6 +16,6 @@ public class Main {
         final MyService myService = di.singletonOf(MyService.class); // construct a singleton (but not static) instance of MyService
         final List<CarInsuranceProvider> myShapres = di.listOf(CarInsuranceProvider.class); // construct a list of objects implementing the given interface
         System.out.println("CarInsuranceProvider lenght " + myShapres.size());
-        // use the objectslistOf
+
     }
 }
